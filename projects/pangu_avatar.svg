@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <!-- 混沌渐变 -->
+    <radialGradient id="chaos" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="50%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f0f23"/>
+    </radialGradient>
+    <!-- 斧光渐变 -->
+    <linearGradient id="axeLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="50%" stop-color="#ff8c00"/>
+      <stop offset="100%" stop-color="#ff4500"/>
+    </linearGradient>
+    <!-- 雷电光晕 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景 - 混沌深渊 -->
+  <circle cx="100" cy="100" r="100" fill="url(#chaos)"/>
+  
+  <!-- 混沌旋涡纹路 -->
+  <g opacity="0.3" stroke="#2d3561" stroke-width="1" fill="none">
+    <ellipse cx="100" cy="100" rx="80" ry="40" transform="rotate(0 100 100)"/>
+    <ellipse cx="100" cy="100" rx="80" ry="40" transform="rotate(60 100 100)"/>
+    <ellipse cx="100" cy="100" rx="80" ry="40" transform="rotate(120 100 100)"/>
+  </g>
+  
+  <!-- 中心开天之光 -->
+  <circle cx="100" cy="100" r="25" fill="#ffd700" opacity="0.2" filter="url(#glow)"/>
+  <circle cx="100" cy="100" r="15" fill="#fff" opacity="0.6"/>
+  
+  <!-- 盘古之斧 - 斜劈 -->
+  <g transform="rotate(-45 100 100)">
+    <!-- 斧柄 -->
+    <rect x="95" y="40" width="10" height="70" fill="#4a4a6a" rx="2"/>
+    <!-- 斧刃 -->
+    <path d="M100 110 L70 130 L100 115 L130 130 Z" fill="url(#axeLight)" filter="url(#glow)"/>
+    <path d="M100 110 L75 125 L100 118 L125 125 Z" fill="#fff" opacity="0.8"/>
+  </g>
+  
+  <!-- 雷电效果 -->
+  <path d="M140 60 L135 75 L142 78 L130 95" stroke="#ffd700" stroke-width="2" fill="none" opacity="0.8" filter="url(#glow)"/>
+  <path d="M60 140 L65 125 L58 122 L70 105" stroke="#ffd700" stroke-width="2" fill="none" opacity="0.8" filter="url(#glow)"/>
+  
+  <!-- 外围光环 -->
+  <circle cx="100" cy="100" r="95" stroke="#ffd700" stroke-width="2" fill="none" opacity="0.4"/>
+  <circle cx="100" cy="100" r="90" stroke="#ff8c00" stroke-width="1" fill="none" opacity="0.3"/>
+</svg>
