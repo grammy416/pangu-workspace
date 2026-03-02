@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-browser": {
+      "version": "0.2.0",
+      "installedAt": 1770803375381
+    },
+    "tavily-search": {
+      "version": "1.0.0",
+      "installedAt": 1772291210462
+    },
+    "summarize": {
+      "version": "1.0.0",
+      "installedAt": 1772291212747
+    },
+    "find-skills": {
+      "version": "0.1.0",
+      "installedAt": 1772291215227
+    },
+    "github": {
+      "version": "1.0.0",
+      "installedAt": 1772291216404
+    },
+    "obsidian": {
+      "version": "1.0.0",
+      "installedAt": 1772291217378
+    },
+    "notion": {
+      "version": "1.0.0",
+      "installedAt": 1772291218604
+    },
+    "weather": {
+      "version": "1.0.0",
+      "installedAt": 1772291219681
+    }
+  }
+}

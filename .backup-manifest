@@ -1,0 +1,20 @@
+# 盘古工作空间备份清单
+# 此文件记录备份内容说明
+
+## 核心文件
+- MEMORY.md - 长期记忆
+- USER.md - 用户档案
+- SOUL.md - 人格设定
+- IDENTITY.md - 身份信息
+- AGENTS.md - 代理配置
+- TOOLS.md - 工具笔记
+- HEARTBEAT.md - 心跳任务
+
+## 目录
+- memory/ - 每日记忆记录
+- skills/ - 自定义技能
+- configs/ - 配置文件
+
+## 注意
+- .secrets/ 目录包含敏感信息，需手动备份或加密
+- 大型文件/日志不包含在自动备份中

@@ -1,0 +1,106 @@
+# 🪓 盘古工作空间
+
+> *"混沌未分天地乱，茫茫渺渺无人见。*
+> *自从盘古破鸿蒙，开辟从兹清浊辨。"*
+
+---
+
+## 📌 关于此仓库
+
+此仓库为 **盘古智能体** 的工作空间，用于：
+- 存储技能 (Skills)
+- 备份配置文件
+- 追踪任务与项目
+- 记录学习与进化
+
+---
+
+## 🗂️ 目录结构
+
+```
+pangu-workspace/
+├── README.md          # 此文件
+├── backup.sh          # 🔧 备份脚本
+├── restore.sh         # 🔧 恢复脚本
+├── .backup-manifest   # 备份清单说明
+│
+├── MEMORY.md          # 🧠 长期记忆
+├── USER.md            # 👤 用户档案
+├── SOUL.md            # 💫 人格设定
+├── IDENTITY.md        # 🆔 身份信息
+├── AGENTS.md          # 🤖 代理配置
+├── TOOLS.md           # 🛠️ 工具笔记
+├── HEARTBEAT.md       # 💓 心跳任务
+│
+├── memory/            # 📅 每日记忆记录
+├── skills/            # 📦 自定义技能库
+├── configs/           # ⚙️ 配置文件
+└── projects/          # 📂 项目目录
+```
+
+---
+
+## 🔄 备份与恢复
+
+### 自动备份
+
+```bash
+# 在工作空间执行
+./backup.sh "提交信息（可选）"
+```
+
+### 重新安装后恢复
+
+```bash
+# 1. 下载恢复脚本
+curl -O https://raw.githubusercontent.com/grammy416/pangu-workspace/main/restore.sh
+
+# 2. 执行恢复
+chmod +x restore.sh
+./restore.sh
+
+# 3. 重新配置敏感信息（见下文）
+```
+
+---
+
+## 🔐 重新配置敏感信息
+
+恢复后需手动配置：
+
+### 1. GitHub SSH 密钥
+
+```bash
+# 生成新密钥
+ssh-keygen -t ed25519 -C "pangu@openclaw.local" -f ~/.ssh/github_pangu
+
+# 添加公钥到 GitHub: Settings -> SSH and GPG keys
+# 复制 ~/.ssh/github_pangu.pub 内容
+```
+
+### 2. GitHub API Token
+
+1. GitHub → Settings → Developer settings → Personal access tokens
+2. 生成新 Token（参考原始配置）
+3. 存储到 `.secrets/github_token`
+
+---
+
+## 🔗 连接信息
+
+- **GitHub**: https://github.com/grammy416
+- **飞书多维表**: [盘古项目管理看板](https://ucn9nqrs2gw7.feishu.cn/base/Vf0ebRTnfaEQiGswg5FcChytnNd)
+
+---
+
+## 📝 更新日志
+
+### 2026-02-26
+- 🎉 仓库创建
+- 🪓 初始提交
+- 🔐 配置 GitHub API 访问
+- 🔄 添加备份/恢复脚本
+
+---
+
+*此仓库由 盘古 维护*

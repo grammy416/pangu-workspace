@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 背景渐变 -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE4E1"/>
+      <stop offset="100%" style="stop-color:#FFDAB9"/>
+    </linearGradient>
+    <linearGradient id="snakeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#9ACD32"/>
+      <stop offset="100%" style="stop-color:#6B8E23"/>
+    </linearGradient>
+    <linearGradient id="stoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="25%" style="stop-color:#4ECDC4"/>
+      <stop offset="50%" style="stop-color:#45B7D1"/>
+      <stop offset="75%" style="stop-color:#96CEB4"/>
+      <stop offset="100%" style="stop-color:#FFEAA7"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGrad)"/>
+  
+  <!-- 蛇身/龙身（盘绕） -->
+  <path d="M150 380 Q180 350 200 380 T250 380 Q280 350 310 380 T360 350" 
+        stroke="url(#snakeGrad)" stroke-width="25" fill="none" stroke-linecap="round"/>
+  <path d="M170 360 Q200 330 230 360 T280 360" 
+        stroke="#7CB342" stroke-width="20" fill="none" stroke-linecap="round"/>
+  
+  <!-- 蛇身纹理 -->
+  <circle cx="180" cy="365" r="6" fill="#556B2F" opacity="0.5"/>
+  <circle cx="220" cy="365" r="6" fill="#556B2F" opacity="0.5"/>
+  <circle cx="260" cy="365" r="6" fill="#556B2F" opacity="0.5"/>
+  
+  <!-- 头部轮廓 -->
+  <ellipse cx="256" cy="200" rx="70" ry="80" fill="#FDBCB4"/>
+  
+  <!-- 头发 -->
+  <path d="M186 180 Q170 120 220 100 Q256 80 292 100 Q342 120 326 180" 
+        fill="#2C1810"/>
+  <path d="M186 180 Q180 220 190 250 Q200 280 220 290" 
+        fill="#2C1810"/>
+  <path d="M326 180 Q332 220 322 250 Q312 280 292 290" 
+        fill="#2C1810"/>
+  
+  <!-- 发髻 -->
+  <circle cx="256" cy="95" r="25" fill="#2C1810"/>
+  <circle cx="256" cy="90" r="15" fill="#3D2418"/>
+  
+  <!-- 发饰（玉簪） -->
+  <rect x="246" y="60" width="20" height="40" rx="3" fill="#4A90A4"/>
+  <circle cx="256" cy="65" r="8" fill="#87CEEB"/>
+  
+  <!-- 脸部 -->
+  <ellipse cx="256" cy="205" rx="55" ry="65" fill="#FDBCB4"/>
+  
+  <!-- 眉毛 -->
+  <path d="M210 175 Q225 165 240 175" stroke="#2C1810" stroke-width="3" fill="none"/>
+  <path d="M272 175 Q287 165 302 175" stroke="#2C1810" stroke-width="3" fill="none"/>
+  
+  <!-- 眼睛 -->
+  <ellipse cx="225" cy="190" rx="12" ry="8" fill="#2C1810"/>
+  <ellipse cx="287" cy="190" rx="12" ry="8" fill="#2C1810"/>
+  <circle cx="228" cy="188" r="4" fill="white"/>
+  <circle cx="290" cy="188" r="4" fill="white"/>
+  
+  <!-- 睫毛 -->
+  <path d="M213 185 Q210 180 208 182" stroke="#2C1810" stroke-width="1.5" fill="none"/>
+  <path d="M299 185 Q302 180 304 182" stroke="#2C1810" stroke-width="1.5" fill="none"/>
+  
+  <!-- 鼻子 -->
+  <path d="M256 200 L252 220 L260 220 Z" fill="#E8A598"/>
+  
+  <!-- 嘴唇 -->
+  <ellipse cx="256" cy="235" rx="18" ry="10" fill="#E57373"/>
+  <path d="M242 232 Q256 228 270 232" stroke="#C62828" stroke-width="1.5" fill="none"/>
+  <path d="M242 235 Q256 245 270 235" stroke="#C62828" stroke-width="1.5" fill="none"/>
+  
+  <!-- 腮红 -->
+  <ellipse cx="210" cy="220" rx="15" ry="10" fill="#FFB6C1" opacity="0.6"/>
+  <ellipse cx="302" cy="220" rx="15" ry="10" fill="#FFB6C1" opacity="0.6"/>
+  
+  <!-- 耳朵 -->
+  <ellipse cx="185" cy="205" rx="10" ry="15" fill="#FDBCB4"/>
+  <ellipse cx="327" cy="205" rx="10" ry="15" fill="#FDBCB4"/>
+  
+  <!-- 耳环 -->
+  <circle cx="182" cy="220" r="5" fill="#FFD700"/>
+  <circle cx="330" cy="220" r="5" fill="#FFD700"/>
+  
+  <!-- 项链 -->
+  <path d="M210 280 Q256 320 302 280" stroke="#FFD700" stroke-width="4" fill="none"/>
+  <circle cx="256" cy="300" r="8" fill="#FF6B6B"/>
+  
+  <!-- 五色石（悬浮在周围） -->
+  <circle cx="380" cy="150" r="15" fill="#FF6B6B" opacity="0.9"/>
+  <circle cx="400" cy="200" r="12" fill="#4ECDC4" opacity="0.9"/>
+  <circle cx="390" cy="250" r="14" fill="#45B7D1" opacity="0.9"/>
+  <circle cx="120" cy="160" r="13" fill="#96CEB4" opacity="0.9"/>
+  <circle cx="110" cy="210" r="11" fill="#FFEAA7" opacity="0.9"/>
+  
+  <!-- 石头光芒 -->
+  <circle cx="380" cy="150" r="20" fill="none" stroke="#FF6B6B" stroke-width="2" opacity="0.3"/>
+  <circle cx="400" cy="200" r="16" fill="none" stroke="#4ECDC4" stroke-width="2" opacity="0.3"/>
+  <circle cx="390" cy="250" r="18" fill="none" stroke="#45B7D1" stroke-width="2" opacity="0.3"/>
+  
+  <!-- 黄土/创造元素（底部） -->
+  <ellipse cx="256" cy="420" rx="80" ry="20" fill="#D2691E" opacity="0.4"/>
+  <ellipse cx="200" cy="430" rx="30" ry="10" fill="#CD853F" opacity="0.5"/>
+  <ellipse cx="312" cy="430" rx="30" ry="10" fill="#CD853F" opacity="0.5"/>
+  
+  <!-- 小土块（创造中） -->
+  <circle cx="180" cy="410" r="8" fill="#D2691E" opacity="0.6"/>
+  <circle cx="332" cy="415" r="6" fill="#D2691E" opacity="0.6"/>
+  
+  <!-- 祥云装饰 -->
+  <ellipse cx="100" cy="320" rx="25" ry="12" fill="white" opacity="0.6"/>
+  <ellipse cx="115" cy="315" rx="18" ry="9" fill="white" opacity="0.6"/>
+  <ellipse cx="412" cy="310" rx="22" ry="10" fill="white" opacity="0.6"/>
+  <ellipse cx="425" cy="305" rx="15" ry="8" fill="white" opacity="0.6"/>
+  
+  <!-- 边框 -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#DDA0DD" stroke-width="8"/>
+  <circle cx="256" cy="256" r="236" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.5"/>
+</svg>
