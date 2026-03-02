@@ -32,6 +32,10 @@
     "weather": {
       "version": "1.0.0",
       "installedAt": 1772291219681
+    },
+    "liang-tavily-research": {
+      "version": "1.0.0",
+      "installedAt": 1772451438264
     }
   }
 }
