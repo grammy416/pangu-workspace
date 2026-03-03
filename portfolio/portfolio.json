@@ -1,0 +1,78 @@
+{
+  "portfolio_name": "貔貅投资组合",
+  "last_updated": "2026-03-03",
+  "positions": [
+    {
+      "symbol": "300033.SZ",
+      "name": "同花顺",
+      "shares": 900,
+      "avg_price": 316.46,
+      "cost_value": 284814.00,
+      "weight": 33.3
+    },
+    {
+      "symbol": "300760.SZ",
+      "name": "迈瑞医疗",
+      "shares": 400,
+      "avg_price": 245.307,
+      "cost_value": 98122.80,
+      "weight": 11.5
+    },
+    {
+      "symbol": "600276.SH",
+      "name": "恒瑞医药",
+      "shares": 1000,
+      "avg_price": 44.941,
+      "cost_value": 44941.00,
+      "weight": 5.3
+    },
+    {
+      "symbol": "000001.SZ",
+      "name": "平安银行",
+      "shares": 2000,
+      "avg_price": 18.437,
+      "cost_value": 36874.00,
+      "weight": 4.3
+    },
+    {
+      "symbol": "000063.SZ",
+      "name": "中兴通讯",
+      "shares": 500,
+      "avg_price": 43.974,
+      "cost_value": 21987.00,
+      "weight": 2.6
+    },
+    {
+      "symbol": "159780.SZ",
+      "name": "科创创业50ETF南方",
+      "shares": 10000,
+      "avg_price": 1.002,
+      "cost_value": 10020.00,
+      "weight": 1.2
+    },
+    {
+      "symbol": "000969.SZ",
+      "name": "安泰科技",
+      "shares": 500,
+      "avg_price": 16.440,
+      "cost_value": 8220.00,
+      "weight": 1.0
+    },
+    {
+      "symbol": "600029.SH",
+      "name": "南方航空",
+      "shares": 100,
+      "avg_price": 15.677,
+      "cost_value": 1567.70,
+      "weight": 0.2
+    }
+  ],
+  "cash": 343733.00,
+  "stock_value": 512093.40,
+  "total_value": 855826.40,
+  "cash_ratio": 40.2,
+  "invest_ratio": 59.8,
+  "risk_level": "稳健型",
+  "cost_basis": 512093.40,
+  "analysis_date": "2026-03-03"
+}

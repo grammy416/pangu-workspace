@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>日程管理</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #6366f1; --primary-dark: #4f46e5; --primary-light: #818cf8;
+            --danger: #ef4444; --success: #22c55e; --warning: #f59e0b;
+            --bg: #f8fafc; --card: #ffffff; --text: #1e293b;
+            --text-secondary: #64748b; --border: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg); color: var(--text); min-height: 100vh;
+            -webkit-font-smoothing: antialiased; padding-bottom: 80px;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; padding: 20px 16px; position: sticky; top: 0; z-index: 100;
+        }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 1.25rem; font-weight: 600; }
+        .header-date { font-size: 0.875rem; opacity: 0.9; margin-top: 4px; }
+        .header-actions { display: flex; gap: 8px; }
+        .btn-icon {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+        }
+        .view-tabs {
+            display: flex; background: var(--card); border-bottom: 1px solid var(--border);
+            position: sticky; top: 76px; z-index: 99;
+        }
+        .view-tab {
+            flex: 1; padding: 14px; text-align: center; font-size: 0.875rem; font-weight: 500;
+            color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent;
+            transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none;
+        }
+        .view-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .calendar-container { background: var(--card); padding: 16px; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .calendar-nav { display: flex; align-items: center; gap: 12px; }
+        .calendar-title { font-size: 1.125rem; font-weight: 600; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .weekday-header { text-align: center; font-size: 0.75rem; font-weight: 500; color: var(--text-secondary); padding: 8px 4px; }
+        .calendar-day {
+            aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: 8px; cursor: pointer; position: relative; transition: all 0.2s; padding: 4px;
+        }
+        .calendar-day:hover { background: var(--bg); }
+        .calendar-day.today { background: var(--primary-light); color: white; }
+        .calendar-day.selected { background: var(--primary); color: white; }
+        .calendar-day.other-month { color: var(--text-secondary); opacity: 0.5; }
+        .day-number { font-size: 0.875rem; font-weight: 500; }
+        .day-events { display: flex; gap: 2px; margin-top: 2px; }
+        .day-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--primary); }
+        .calendar-day.selected .day-dot, .calendar-day.today .day-dot { background: white; }
+        .events-container { padding: 16px; }
+        .date-section { margin-bottom: 20px; }
+        .date-header { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; padding: 0 4px; }
+        .date-header.today-label { color: var(--primary); }
+        .event-card {
+            background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px;
+            box-shadow: var(--shadow); border-left: 4px solid var(--primary); cursor: pointer; transition: all 0.2s;
+        }
+        .event-card.work { border-left-color: #3b82f6; }
+        .event-card.personal { border-left-color: #22c55e; }
+        .event-card.important { border-left-color: #ef4444; }
+        .event-card.meeting { border-left-color: #8b5cf6; }
+        .event-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .event-title { font-size: 1rem; font-weight: 600; color: var(--text); flex: 1; }
+        .event-actions { display: flex; gap: 8px; }
+        .event-btn { width: 28px; height: 28px; border-radius: 6px; border: none; background: var(--bg); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; }
+        .event-btn:hover { background: var(--border); }
+        .event-btn.delete:hover { background: #fee2e2; color: var(--danger); }
+        .event-meta { display: flex; align-items: center; gap: 12px; font-size: 0.75rem; color: var(--text-secondary); }
+        .event-time { display: flex; align-items: center; gap: 4px; }
+        .event-category { display: flex; align-items: center; gap: 4px; padding: 2px 8px; background: var(--bg); border-radius: 4px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+        .empty-state h3 { font-size: 1rem; font-weight: 500; margin-bottom: 8px; color: var(--text); }
+        .empty-state p { font-size: 0.875rem; }
+        .fab {
+            position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
+            border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; font-size: 28px; cursor: pointer; box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .fab:active { transform: scale(0.95); }
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5);
+            display: flex; align-items: flex-end; justify-content: center; z-index: 2000;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: var(--card); width: 100%; max-width: 480px; max-height: 90vh;
+            border-radius: 20px 20px 0 0; transform: translateY(100%); transition: transform 0.3s; overflow: hidden;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-header { padding: 20px 20px 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 1.25rem; font-weight: 600; }
+        .modal-close { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--bg); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .modal-body { padding: 20px; overflow-y: auto; max-height: calc(90vh - 140px); }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: inherit; background: var(--card); color: var(--text); }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--primary); }
+        .form-textarea { resize: vertical; min-height: 80px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .category-options { display: flex; gap: 8px; flex-wrap: wrap; }
+        .category-option { padding: 8px 16px; border-radius: 20px; border: 2px solid var(--border); background: var(--card); cursor: pointer; font-size: 0.875rem; font-weight: 500; }
+        .category-option.selected { border-color: var(--primary); background: var(--primary); color: white; }
+        .category-option.work.selected { background: #3b82f6; border-color: #3b82f6; }
+        .category-option.personal.selected { background: #22c55e; border-color: #22c55e; }
+        .category-option.important.selected { background: #ef4444; border-color: #ef4444; }
+        .category-option.meeting.selected { background: #8b5cf6; border-color: #8b5cf6; }
+        .modal-footer { padding: 16px 20px 24px; display: flex; gap: 12px; }
+        .btn { flex: 1; padding: 14px 24px; border-radius: 10px; font-size: 1rem; font-weight: 500; cursor: pointer; border: none; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; }
+        .btn-secondary { background: var(--bg); color: var(--text); }
+        .btn-danger { background: var(--danger); color: white; }
+        .timeline-container { padding: 16px; }
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+        .timeline-item { position: relative; padding-bottom: 24px; }
+        .timeline-dot { position: absolute; left: -32px; width: 16px; height: 16px; border-radius: 50%; background: var(--primary); border: 3px solid var(--card); box-shadow: var(--shadow); }
+        .timeline-item.work .timeline-dot { background: #3b82f6; }
+        .timeline-item.personal .timeline-dot { background: #22c55e; }
+        .timeline-item.important .timeline-dot { background: #ef4444; }
+        .timeline-item.meeting .timeline-dot { background: #8b5cf6; }
+        .timeline-content { background: var(--card); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); }
+        .timeline-time { font-size: 0.75rem; color: var(--primary); font-weight: 600; margin-bottom: 4px; }
+        .timeline-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .timeline-desc { font-size: 0.875rem; color: var(--text-secondary); }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div><h1>📅 日程管理</h1><div class="header-date" id="currentDate"></div></div>
+            <div class="header-actions"><button class="btn-icon" onclick="app.today()" title="今天">📅</button></div>
+        </div>
+    </header>
+    <div class="view-tabs">
+        <button class="view-tab active" data-view="calendar">日历</button>
+        <button class="view-tab" data-view="list">列表</button>
+        <button class="view-tab" data-view="timeline">时间轴</button>
+    </div>
+    <div class="view" id="calendarView">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <div class="calendar-nav">
+                    <button class="btn-icon" onclick="app.prevMonth()" style="background: var(--bg); color: var(--text);">◀</button>
+                    <div class="calendar-title" id="calendarTitle"></div>
+                    <button class="btn-icon" onclick="app.nextMonth()" style="background: var(--bg); color: var(--text);">▶</button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+        <div class="events-container" id="calendarEvents"></div>
+    </div>
+    <div class="view hidden" id="listView"><div class="events-container" id="listEvents"></div></div>
+    <div class="view hidden" id="timelineView"><div class="timeline-container" id="timelineEvents"></div></div>
+    <button class="fab" onclick="app.openModal()">+</button>
+    <div class="modal-overlay" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">新建日程</h2>
+                <button class="modal-close" onclick="app.closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <input type="hidden" id="eventId">
+                    <div class="form-group"><label class="form-label">日程标题</label><input type="text" class="form-input" id="eventTitle" placeholder="输入日程标题" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">日期</label><input type="date" class="form-input" id="eventDate" required></div>
+                        <div class="form-group"><label class="form-label">时间</label><input type="time" class="form-input" id="eventTime"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">分类</label>
+                        <div class="category-options">
+                            <button type="button" class="category-option work selected" data-category="work">工作</button>
+                            <button type="button" class="category-option personal" data-category="personal">个人</button>
+                            <button type="button" class="category-option important" data-category="important">重要</button>
+                            <button type="button" class="category-option meeting" data-category="meeting">会议</button>
+                        </div>
+                    </div>
+                    <div class="form-group"><label class="form-label">备注</label><textarea class="form-textarea" id="eventDesc" placeholder="添加备注（可选）"></textarea></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="app.closeModal()">取消</button>
+                <button type="button" class="btn btn-danger" id="deleteBtn" onclick="app.deleteEvent()" style="display: none;">删除</button>
+                <button type="button" class="btn btn-primary" onclick="app.saveEvent()">保存</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const app = {
+            events: [], currentDate: new Date(), selectedDate: new Date(), currentView: 'calendar', editingId: null, selectedCategory: 'work',
+            init() { this.loadEvents(); this.renderHeader(); this.renderCalendar(); this.renderEvents(); this.setupEventListeners(); },
+            loadEvents() { const saved = localStorage.getItem('scheduleEvents'); if (saved) this.events = JSON.parse(saved); },
+            saveEvents() { localStorage.setItem('scheduleEvents', JSON.stringify(this.events)); },
+            renderHeader() { document.getElementById('currentDate').textContent = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' }); },
+            renderCalendar() {
+                const year = this.currentDate.getFullYear(), month = this.currentDate.getMonth();
+                document.getElementById('calendarTitle').textContent = `${year}年${month + 1}月`;
+                const firstDay = new Date(year, month, 1).getDay(), daysInMonth = new Date(year, month + 1, 0).getDate(), daysInPrevMonth = new Date(year, month, 0).getDate();
+                const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+                let html = weekdays.map(d => `<div class="weekday-header">${d}</div>`).join('');
+                for (let i = firstDay - 1; i >= 0; i--) html += `<div class="calendar-day other-month"><span class="day-number">${daysInPrevMonth - i}</span></div>`;
+                const today = new Date();
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const date = new Date(year, month, day), isToday = date.toDateString() === today.toDateString(), isSelected = date.toDateString() === this.selectedDate.toDateString();
+                    const dayEvents = this.getEventsForDate(date), classes = ['calendar-day'];
+                    if (isToday) classes.push('today'); if (isSelected) classes.push('selected');
+                    html += `<div class="${classes.join(' ')}" onclick="app.selectDate(${year}, ${month}, ${day})"><span class="day-number">${day}</span>${dayEvents.length > 0 ? `<div class="day-events">${dayEvents.slice(0, 3).map(() => '<div class="day-dot"></div>').join('')}</div>` : ''}</div>`;
+                }
+                const remainingDays = 42 - (firstDay + daysInMonth);
+                for (let day = 1; day <= remainingDays; day++) html += `<div class="calendar-day other-month"><span class="day-number">${day}</span></div>`;
+                document.getElementById('calendarGrid').innerHTML = html;
+                this.renderSelectedDateEvents();
+            },
+            prevMonth() { this.currentDate.setMonth(this.currentDate.getMonth() - 1); this.renderCalendar(); },
+            nextMonth() { this.currentDate.setMonth(this.currentDate.getMonth() + 1); this.renderCalendar(); },
+            today() { this.currentDate = new Date(); this.selectedDate = new Date(); this.renderCalendar(); this.renderEvents(); },
+            selectDate(year, month, day) { this.selectedDate = new Date(year, month, day); this.renderCalendar(); this.renderSelectedDateEvents(); },
+            getEventsForDate(date) {
+                const dateStr = this.formatDate(date);
+                return this.events.filter(e => e.date === dateStr).sort((a, b) => { if (!a.time) return 1; if (!b.time) return -1; return a.time.localeCompare(b.time); });
+            },
+            renderSelectedDateEvents() {
+                const events = this.getEventsForDate(this.selectedDate), container = document.getElementById('calendarEvents');
+                container.innerHTML = events.length === 0 ? this.getEmptyStateHTML() : `<div class="date-section"><div class="date-header ${this.isToday(this.selectedDate) ? 'today-label' : ''}">${this.formatDateLabel(this.selectedDate)}</div>${events.map(e => this.getEventCardHTML(e)).join('')}</div>`;
+            },
+            renderEvents() {
+                const listContainer = document.getElementById('listEvents'), grouped = this.groupEventsByDate();
+                listContainer.innerHTML = Object.keys(grouped).length === 0 ? this.getEmptyStateHTML() : Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b)).map(([date, events]) => `<div class="date-section"><div class="date-header ${this.isToday(new Date(date)) ? 'today-label' : ''}">${this.formatDateLabel(new Date(date))}</div>${events.map(e => this.getEventCardHTML(e)).join('')}</div>`).join('');
+                const timelineContainer = document.getElementById('timelineEvents'), sortedEvents = [...this.events].sort((a, b) => { const dateCompare = a.date.localeCompare(b.date); if (dateCompare !== 0) return dateCompare; if (!a.time) return 1; if (!b.time) return -1; return a.time.localeCompare(b.time); });
+                timelineContainer.innerHTML = sortedEvents.length === 0 ? this.getEmptyStateHTML() : `<div class="timeline">${sortedEvents.map(e => `<div class="timeline-item ${e.category}" onclick="app.editEvent('${e.id}')"><div class="timeline-dot"></div><div class="timeline-content"><div class="timeline-time">${e.date} ${e.time || '全天'}</div><div class="timeline-title">${e.title}</div>${e.desc ? `<div class="timeline-desc">${e.desc}</div>` : ''}</div></div>`).join('')}</div>`;
+            },
+            groupEventsByDate() { return this.events.reduce((acc, event) => { if (!acc[event.date]) acc[event.date] = []; acc[event.date].push(event); return acc; }, {}); },
+            getEventCardHTML(event) {
+                return `<div class="event-card ${event.category}" onclick="app.editEvent('${event.id}')"><div class="event-header"><div class="event-title">${event.title}</div><div class="event-actions" onclick="event.stopPropagation()"><button class="event-btn" onclick="app.editEvent('${event.id}')">✏️</button><button class="event-btn delete" onclick="app.confirmDelete('${event.id}')">🗑️</button></div></div><div class="event-meta"><div class="event-time">🕐 ${event.time || '全天'}</div><div class="event-category">${this.getCategoryLabel(event.category)}</div></div>${event.desc ? `<div style="margin-top: 8px; font-size: 0.875rem; color: var(--text-secondary);">${event.desc}</div>` : ''}</div>`;
+            },
+            getEmptyStateHTML() { return `<div class="empty-state"><h3>暂无日程</h3><p>点击下方 + 按钮添加新日程</p></div>`; },
+            formatDate(date) { return date.toISOString().split('T')[0]; },
+            formatDateLabel(date) { const today = new Date(), isToday = date.toDateString() === today.toDateString(); return isToday ? `今天 · ${date.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' })}` : date.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' }); },
+            isToday(date) { return date.toDateString() === new Date().toDateString(); },
+            getCategoryLabel(category) { return { work: '工作', personal: '个人', important: '重要', meeting: '会议' }[category] || category; },
+            setupEventListeners() {
+                document.querySelectorAll('.view-tab').forEach(tab => tab.addEventListener('click', () => this.switchView(tab.dataset.view)));
+                document.querySelectorAll('.category-option').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('.category-option').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); this.selectedCategory = btn.dataset.category; }));
+                document.getElementById('eventModal').addEventListener('click', (e) => { if (e.target === document.getElementById('eventModal')) this.closeModal(); });
+            },
+            switchView(view) { this.currentView = view; document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active')); document.querySelector(`[data-view="${view}"]`).classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.add('hidden')); document.getElementById(view + 'View').classList.remove('hidden'); this.renderEvents(); },
+            openModal(eventId = null) {
+                this.editingId = eventId; const modal = document.getElementById('eventModal'), title = document.getElementById('modalTitle'), deleteBtn = document.getElementById('deleteBtn');
+                if (eventId) {
+                    const ev = this.events.find(e => e.id === eventId); title.textContent = '编辑日程'; document.getElementById('eventId').value = ev.id; document.getElementById('eventTitle').value = ev.title; document.getElementById('eventDate').value = ev.date; document.getElementById('eventTime').value = ev.time || ''; document.getElementById('eventDesc').value = ev.desc || ''; this.selectedCategory = ev.category; deleteBtn.style.display = 'block';
+                } else { title.textContent = '新建日程'; document.getElementById('eventForm').reset(); document.getElementById('eventDate').value = this.formatDate(this.selectedDate); this.selectedCategory = 'work'; deleteBtn.style.display = 'none'; }
+                document.querySelectorAll('.category-option').forEach(b => b.classList.toggle('selected', b.dataset.category === this.selectedCategory));
+                modal.classList.add('active');
+            },
+            closeModal() { document.getElementById('eventModal').classList.remove('active'); this.editingId = null; },
+            saveEvent() {
+                const title = document.getElementById('eventTitle').value.trim(), date = document.getElementById('eventDate').value, time = document.getElementById('eventTime').value, desc = document.getElementById('eventDesc').value.trim();
+                if (!title || !date) { alert('请填写标题和日期'); return; }
+                const eventData = { id: this.editingId || Date.now().toString(), title, date, time, category: this.selectedCategory, desc };
+                if (this.editingId) { const index = this.events.findIndex(e => e.id === this.editingId); if (index !== -1) this.events[index] = eventData; } else this.events.push(eventData);
+                this.saveEvents(); this.closeModal(); this.renderCalendar(); this.renderEvents();
+            },
+            confirmDelete(id) { if (confirm('确定要删除这个日程吗？')) { this.events = this.events.filter(e => e.id !== id); this.saveEvents(); this.closeModal(); this.renderCalendar(); this.renderEvents(); } },
+            deleteEvent() { if (this.editingId) this.confirmDelete(this.editingId); }
+        };
+        app.init();
+    </script>
+</body>
+</html>
