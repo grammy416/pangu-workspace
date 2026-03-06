@@ -2,8 +2,15 @@
 
 ## 投资数据源
 
-### 免费API
-- **Tushare** - A股数据 (需Token)
+### 已配置 ✅
+- **Tushare** - A股实时行情 (已配置Token)
+  - 数据来源：Tushare Pro API
+  - 覆盖范围：A股全部股票
+  - 更新频率：日线数据 (交易日15:00后更新)
+  - 配置文件：`/root/.openclaw/workspace/.tushare_config`
+  - 脚本位置：`/root/.openclaw/workspace/invest_report.py`
+
+### 备用API
 - **AKShare** - 开源财经数据
 - **Yahoo Finance** - 美股数据
 
