@@ -3,27 +3,27 @@
   "skills": {
     "agent-browser": {
       "version": "0.2.0",
-      "installedAt": 1770803375381
+      "installedAt": 1773238235825
     },
     "tavily-search": {
       "version": "1.0.0",
-      "installedAt": 1772291210462
+      "installedAt": 1773238235123
     },
     "summarize": {
       "version": "1.0.0",
-      "installedAt": 1772291212747
+      "installedAt": 1773238235472
     },
     "find-skills": {
       "version": "0.1.0",
-      "installedAt": 1772291215227
+      "installedAt": 1773238236172
     },
     "github": {
       "version": "1.0.0",
-      "installedAt": 1772291216404
+      "installedAt": 1773238236567
     },
     "obsidian": {
       "version": "1.0.0",
-      "installedAt": 1772291217378
+      "installedAt": 1773238236904
     },
     "notion": {
       "version": "1.0.0",
@@ -31,11 +31,23 @@
     },
     "weather": {
       "version": "1.0.0",
-      "installedAt": 1772291219681
+      "installedAt": 1773238237288
     },
     "liang-tavily-research": {
       "version": "1.0.0",
       "installedAt": 1772451438264
+    },
+    "clawdefender": {
+      "version": "1.0.1",
+      "installedAt": 1773245350379
+    },
+    "trello-api": {
+      "version": "1.0.3",
+      "installedAt": 1773245488063
+    },
+    "trello": {
+      "version": "1.0.0",
+      "installedAt": 1773245831394
     }
   }
 }
