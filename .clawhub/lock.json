@@ -48,6 +48,10 @@
     "trello": {
       "version": "1.0.0",
       "installedAt": 1773245831394
+    },
+    "tushare-finance": {
+      "version": "2.0.6",
+      "installedAt": 1773300615680
     }
   }
 }
