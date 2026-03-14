@@ -20,6 +20,7 @@
 ```
 pangu-workspace/
 ├── README.md          # 此文件
+├── BACKUP_LOG.md      # 📋 备份日志
 ├── backup.sh          # 🔧 备份脚本
 ├── restore.sh         # 🔧 恢复脚本
 ├── .backup-manifest   # 备份清单说明
@@ -54,17 +55,22 @@ pangu-workspace/
 tail -f /var/log/pangu-backup.log
 ```
 
-### 7天历史清理（可选）
+### 七日轮转备份策略
 
-⚠️  **警告：此操作会重写 Git 历史！**
+| 项目 | 设置 |
+|------|------|
+| **备份频率** | 每天凌晨 1:00 |
+| **GitHub 保留** | 仅最近 7 个版本（7天） |
+| **备份内容** | MEMORY.md, USER.md, SOUL.md, IDENTITY.md, AGENTS.md, TOOLS.md, HEARTBEAT.md, memory/, skills/, configs/, projects/ |
+| **记录文件** | BACKUP_LOG.md |
 
-如需只保留最近7天提交：
+**工作流程**:
+1. 每天凌晨1点，自动备份工作空间到 GitHub
+2. 如果版本超过7个，自动归档旧版本
+3. GitHub 始终只保留最近7天的备份版本
+4. 可在 BACKUP_LOG.md 查看备份记录
 
-```bash
-./cleanup-old-history.sh
-```
-
-**建议**: 保留完整历史，便于追溯。若需节省空间，可定期手动清理。
+**用途**: 重新安装 OpenClaw 后，可立即恢复最近7天的完整状态
 
 ### 重新安装后恢复
 
