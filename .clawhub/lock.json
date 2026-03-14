@@ -52,6 +52,10 @@
     "tushare-finance": {
       "version": "2.0.6",
       "installedAt": 1773300615680
+    },
+    "web-search-ex-skill": {
+      "version": "1.3.0",
+      "installedAt": 1773482105086
     }
   }
 }
