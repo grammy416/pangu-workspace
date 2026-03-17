@@ -72,6 +72,12 @@
       "zip_url": "https://lightmake.site/api/v1/download?slug=web-search-ex-skill",
       "source": "skillhub",
       "version": "1.3.0"
+    },
+    "stock-monitor-skill": {
+      "name": "Stock Monitor",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=stock-monitor-skill",
+      "source": "skillhub",
+      "version": "0.1.0"
     }
   }
 }
