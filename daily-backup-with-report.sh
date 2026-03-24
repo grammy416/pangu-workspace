@@ -19,7 +19,7 @@ if git diff --quiet && git diff --cached --quiet; then
     echo "- $DATE_STR - 无变更" >> "$BACKUP_LOG"
     
     # 发送汇报（即使无变更）
-    /usr/local/bin/openclaw message send --channel feishu --message "📦 盘古备份报告 ($DATE_SHORT)
+    /usr/local/bin/openclaw message send --channel feishu --target "盘古" --message "📦 盘古备份报告 ($DATE_SHORT)
 
 状态: ⚪ 无变更
 时间: $DATE_STR
@@ -41,7 +41,7 @@ echo "- $DATE_STR - 备份成功 (commit: $COMMIT_HASH)" >> "$BACKUP_LOG"
 echo "✅ 备份完成: $COMMIT_HASH"
 
 # 发送成功汇报
-/usr/local/bin/openclaw message send --channel feishu --message "📦 盘古备份报告 ($DATE_SHORT)
+/usr/local/bin/openclaw message send --channel feishu --target "盘古" --message "📦 盘古备份报告 ($DATE_SHORT)
 
 状态: ✅ 成功
 时间: $DATE_STR
